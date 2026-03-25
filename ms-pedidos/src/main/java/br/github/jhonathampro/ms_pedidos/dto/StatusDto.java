@@ -8,7 +8,7 @@ import lombok.NoArgsConstructor;
 @AllArgsConstructor
 @NoArgsConstructor
 @Getter
-public class StatusDTO {
+public class StatusDto {
 
     private Status status;
 }
