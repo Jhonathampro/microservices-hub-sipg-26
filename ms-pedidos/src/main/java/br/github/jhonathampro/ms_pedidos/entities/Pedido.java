@@ -33,6 +33,11 @@ public class Pedido {
     //relacionamento
     @OneToMany(mappedBy = "pedido", cascade = CascadeType.ALL, orphanRemoval = true)
     private List<ItemDoPedido> itens = new ArrayList<>();
+    // Posso acessar os items pelos pedidos de forma bidirecional, ou seja permite navegar tanto
+    // do pedido para os itens quanto do item para o pedido.
+
+    // No banco de dados a relação é unidimencional, ou seja O Item conhece o Pedido
+    // mas o Pedido não precisa conhecer os itens no banco.
 
     public void calcularValorTotalDoPedido(){
         this.valorTotal = this.itens.stream().map(i -> i.getPrecoUnitario()

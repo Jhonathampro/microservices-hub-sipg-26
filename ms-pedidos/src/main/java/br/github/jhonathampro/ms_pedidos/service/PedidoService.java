@@ -55,6 +55,8 @@ public class PedidoService {
 
     private void mapDtoToPedido(PedidoDto pedidoDTO, Pedido pedido) {
 
+        // esses atributos estão aqui porque vem do dto do pedido.
+        // então faz uma separação de responabilidades
         pedido.setNome(pedidoDTO.getNome());
         pedido.setCpf(pedidoDTO.getCpf());
 
