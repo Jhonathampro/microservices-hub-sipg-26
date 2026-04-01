@@ -47,4 +47,19 @@ public class PedidoController {
         return ResponseEntity.created(uri).body(pedidoDto);
     }
 
+    @PutMapping("/{id}")
+    public ResponseEntity<PedidoDto> updatePedido(@PathVariable Long id, @Valid @RequestBody PedidoDto pedidoDto){
+        pedidoDto = pedidoService.updatePedido(id, pedidoDto);
+        return ResponseEntity.ok(pedidoDto);
+
+    }
+
+    @DeleteMapping("/{id}")
+    public ResponseEntity<Void> deletetePedido(@PathVariable Long id){
+
+        pedidoService.deletePedidoByID(id);
+
+        return ResponseEntity.noContent().build();
+    }
+
 }

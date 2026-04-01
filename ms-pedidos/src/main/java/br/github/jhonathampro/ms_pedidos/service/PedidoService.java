@@ -8,6 +8,7 @@ import br.github.jhonathampro.ms_pedidos.entities.Status;
 import br.github.jhonathampro.ms_pedidos.exceptions.ResourceNotFoundException;
 import br.github.jhonathampro.ms_pedidos.repositories.ItemDoPedidoRepository;
 import br.github.jhonathampro.ms_pedidos.repositories.PedidoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -68,5 +69,32 @@ public class PedidoService {
             itemPedido.setPedido(pedido);
             pedido.getItens().add(itemPedido);
         }
+    }
+
+    @Transactional
+    public PedidoDto updatePedido(Long id, PedidoDto pedidoDto){
+
+        try {
+            Pedido pedido = pedidoRepository.getReferenceById(id);
+            pedido.getItens().clear();
+            pedido.setData(LocalDate.now());
+            pedido.setStatus(Status.CRIADO);
+            mapDtoToPedido(pedidoDto, pedido);
+            pedido.calcularValorTotalDoPedido();
+            pedido = pedidoRepository.save(pedido);
+            return new PedidoDto(pedido);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Recurso não encontrado. ID: " + id);
+        }
+    }
+
+    @Transactional
+    public void deletePedidoByID(Long id){
+
+        if(!pedidoRepository.existsById(id)){
+            throw new ResourceNotFoundException("Recurso não encontrado. ID " + id);
+        }
+
+        pedidoRepository.deleteById(id);
     }
 }
