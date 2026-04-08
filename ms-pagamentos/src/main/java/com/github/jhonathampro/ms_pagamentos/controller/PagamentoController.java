@@ -30,7 +30,7 @@ public class PagamentoController {
         return ResponseEntity.ok(pagamentoDTO);
     }
 
-
+    @PostMapping
     private ResponseEntity<PagamentoDto> createPagamento (@RequestBody @Valid PagamentoDto pagamentoDTO) {
         pagamentoDTO = pagamentoService.savePagamento(pagamentoDTO);
         URI uri =
