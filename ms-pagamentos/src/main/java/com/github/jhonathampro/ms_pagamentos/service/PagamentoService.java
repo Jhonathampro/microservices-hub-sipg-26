@@ -6,6 +6,7 @@ import com.github.jhonathampro.ms_pagamentos.entities.Pagamento;
 import com.github.jhonathampro.ms_pagamentos.entities.Status;
 import com.github.jhonathampro.ms_pagamentos.exceptions.ResourceNotFoundException;
 import com.github.jhonathampro.ms_pagamentos.repositories.PagamentoRepository;
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -50,5 +51,29 @@ public class PagamentoService {
         pagamento.setCodigoSeguranca(pagamentoDTO.getCodigoSeguranca());
         pagamento.setPedidoId(pagamentoDTO.getPedidoId());
     }
+
+    @Transactional
+    public PagamentoDto updatePagamento (Long id, PagamentoDto pagamentoDTO) {
+        try {
+            Pagamento pagamento = pagamentoRepository.getReferenceById(id);
+            mapperDtoToPagamento(pagamentoDTO, pagamento);
+            pagamento.setStatus(pagamentoDTO.getStatus());
+            pagamento = pagamentoRepository.save(pagamento);
+            return new PagamentoDto(pagamento);
+        } catch (EntityNotFoundException e) {
+            throw new ResourceNotFoundException("Recurso não encontrado. ID: " + id);
+        }
+    }
+
+    @Transactional
+    public void deletePagamentoById(Long id) {
+        if (!pagamentoRepository.existsById(id)) {
+            throw new ResourceNotFoundException("Recurso não encontrado. ID: + id");
+        }
+        pagamentoRepository.deleteById(id);
+    }
+
+
+
 
 }

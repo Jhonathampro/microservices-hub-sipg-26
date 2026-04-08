@@ -42,4 +42,18 @@ public class PagamentoController {
         return ResponseEntity.created(uri).body(pagamentoDTO);
 
     }
+
+    @PutMapping("/{id}")
+    public ResponseEntity<PagamentoDto> updateProduto (@PathVariable Long id,
+                                                       @Valid @RequestBody PagamentoDto pagamentoDTO) {
+        pagamentoDTO = pagamentoService.updatePagamento(id, pagamentoDTO);
+        return ResponseEntity.ok(pagamentoDTO);
+    }
+
+    @DeleteMapping("{id}")
+    public ResponseEntity<Void> deletePagamento (@PathVariable Long id) {
+        pagamentoService.deletePagamentoById(id);
+        return ResponseEntity.noContent().build();
+    }
+
 }
