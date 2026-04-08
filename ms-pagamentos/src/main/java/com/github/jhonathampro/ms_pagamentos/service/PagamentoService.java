@@ -4,9 +4,9 @@ package com.github.jhonathampro.ms_pagamentos.service;
 import com.github.jhonathampro.ms_pagamentos.dto.PagamentoDto;
 import com.github.jhonathampro.ms_pagamentos.entities.Pagamento;
 import com.github.jhonathampro.ms_pagamentos.repositories.PagamentoRepository;
-import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
